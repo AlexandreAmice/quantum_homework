@@ -6,12 +6,17 @@ z = np.array([1,0])
 o = np.array([0,1])
 basis1 = (z,o)
 
+plus = 1/np.sqrt(2) * (z+o)
+minus = 1/np.sqrt(2) * (z-o)
+pm_basis = (plus, minus)
+
 
 zz = kron(z,z)
 zo = kron(z,o)
 oz = kron(o,z)
 oo = kron(o,o)
 basis2 = (zz,zo,oz,oo)
+
 
 zzz = kron(z,zz)
 zzo = kron(z,zo)
@@ -29,6 +34,14 @@ basis3 = (zzz,
           ozo,
           ooz,
           ooo)
+
+bb1 = 1/np.sqrt(2)*(zz + oo)
+bb2 = 1/np.sqrt(2)*(zz - oo)
+bb3 = 1/np.sqrt(2)*(zo + oz)
+bb4 = 1/np.sqrt(2)*(zo - oz)
+bell_basis = (bb1, bb2, bb3, bb4)
+
+I2 = np.eye(2)
 
 H = 1/np.sqrt(2) * np.array([[1,1],[1,-1]])
 
@@ -63,6 +76,7 @@ cnot = np.array([
 cnot_rev = swap@cnot@swap
 
 CX = block_diag(np.eye(2), sigma_x)
+CNOT = CX
 CY = block_diag(np.eye(2), sigma_y)
 CZ = block_diag(np.eye(2), sigma_z)
 
@@ -76,6 +90,8 @@ CNOT12 = kron(cnot, np.eye(2))
 CNOT21 = kron(cnot_rev, np.eye(2))
 CNOT13 = kron(swap, np.eye(2))@CNOT23@kron(swap,np.eye(2))
 CNOT31 = SWAP_13@CNOT13@SWAP_13
+
+ghz = 1/np.sqrt(2) * (zzz + ooo)
 
 def compute_circuit(gate_list, ordered_left_to_right = True):
     '''
